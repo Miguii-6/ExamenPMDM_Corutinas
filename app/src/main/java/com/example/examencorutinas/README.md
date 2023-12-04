@@ -80,17 +80,3 @@ classDiagram
         + responderVF()
     }
 ```
-## Diagrama de flujo
-
-
-
-```mermaid
-graph TD
-    A[Inicio] --> B[Comenzar Juego]
-    B --> C{Respuesta Correcta?}
-    C -- Sí --> D[Sumar Puntuación]
-    D --> E[¿Fin del Juego?]
-    E -- No --> B
-    C -- No --> E
-    E --> F[Fin]
-```
