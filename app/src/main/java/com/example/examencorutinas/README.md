@@ -69,6 +69,7 @@ El código está escrito en Kotlin con Jetpack Compose. El juego contiene:
 
 ## Diagrama de clases:
 
+
 ```mermaid
 classDiagram
     class JuegoPreguntas {
@@ -78,11 +79,13 @@ classDiagram
         + iniciarJuego()
         + responderVF()
     }
-
 ```
 ## Diagrama de flujo
+
+
+
 ```mermaid
-graph LR
+graph TD
     A((Inicio)) --> B(Comenzar Juego)
     B --> C{Respuesta Correcta?}
     C -- Sí --> D(Sumar Puntuación)
@@ -90,5 +93,4 @@ graph LR
     E -- No --> B
     C -- No --> E
     E --> F((Fin))
-
 ```
