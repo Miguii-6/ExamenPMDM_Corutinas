@@ -29,8 +29,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 
 
+// Clase para almacenar una frase y su valor verdadero/falso
 data class Frase(var texto: String, var verdadero: Boolean)
 
+// Función para cargar una lista de frases
 fun cargarFrases(): MutableList<Frase> {
     return mutableListOf(
         Frase("el torneo de rugby cinco naciones, ahora es seis naciones", true),
@@ -48,12 +50,14 @@ fun cargarFrases(): MutableList<Frase> {
 
 @Composable
 fun FraseGame() {
+    // Variables para controlar el juego
     var fraseActualIndex by remember { mutableStateOf(0) }
     val countdownValue: MutableState<Int> = remember { mutableStateOf(20) }
     val gameStarted: MutableState<Boolean> = remember { mutableStateOf(false) }
     val score: MutableState<Int> = remember { mutableStateOf(0) }
     val frases = cargarFrases()
 
+    // Diseño de la interfaz
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,6 +65,7 @@ fun FraseGame() {
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Botón de inicio
         Button(
             onClick = {
                 gameStarted.value = true
@@ -77,6 +82,7 @@ fun FraseGame() {
             Text(text = "START", fontSize = 24.sp)
         }
 
+        // Contador
         Text(
             text = "Countdown: ${countdownValue.value}",
             fontSize = 20.sp,
@@ -84,12 +90,13 @@ fun FraseGame() {
         )
 
         if (gameStarted.value) {
+            // Campo de texto para mostrar la frase
             BasicTextField(
                 value = frases[fraseActualIndex].texto,
-                onValueChange = { /* No op, read-only field */ },
+                onValueChange = {},
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(120.dp)
+                    .height(130.dp)
                     .padding(16.dp),
                 textStyle = TextStyle(
                     fontWeight = FontWeight.Bold,
@@ -97,6 +104,7 @@ fun FraseGame() {
                 )
             )
 
+            // Botones de Verdadero/Falso y puntuación
             Row(
                 modifier = Modifier.padding(vertical = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
@@ -133,6 +141,7 @@ fun FraseGame() {
                 }
             }
 
+            // Mostrar puntuación
             Text(
                 text = "Score: ${score.value}",
                 fontSize = 24.sp,
@@ -142,6 +151,7 @@ fun FraseGame() {
     }
 }
 
+// Función para iniciar la cuenta regresiva
 fun startCountdown(
     countdownValue: MutableState<Int>,
     gameStarted: MutableState<Boolean>
