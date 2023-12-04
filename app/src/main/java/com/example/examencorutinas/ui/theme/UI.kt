@@ -23,16 +23,33 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 
+
 data class Frase(var texto: String, var verdadero: Boolean)
 
-var frases: MutableList<Frase> = mutableListOf()
-var fraseActual: MutableState<Frase> = mutableStateOf(Frase("-", true))
-var countdownValue: MutableState<Int> = mutableStateOf(20)
-var gameStarted: MutableState<Boolean> = mutableStateOf(false)
-var score: MutableState<Int> = mutableStateOf(0)
+fun cargarFrases(): MutableState<Frase> {
+    val frases: MutableList<Frase> = mutableListOf()
+    frases.add(Frase("el torneo de rugby cinco naciones, ahora es seis naciones", true))
+    frases.add(Frase("en el cielo hay cinco estrellas", false))
+    frases.add(Frase("el dia cinco de diciembre del 2023 es martes", true))
+    frases.add(Frase("cinco más cinco son diez", true))
+    frases.add(Frase("dos mas dos son cinco", false))
+    frases.add(Frase("los elefantes tienen cinco patas", false))
+    frases.add(Frase("las estaciones climáticas son cinco", false))
+    frases.add(Frase("tenemos cinco dedos los humanos", true))
+    frases.add(Frase("cinco días tiene la semana sin el Domingo y el Sábado", true))
+    frases.add(Frase("una gallina pesa menos que cinco toneladas", true))
+
+    val fraseActual: MutableState<Frase> = mutableStateOf(frases.random())
+    return fraseActual
+}
 
 @Composable
 fun FraseGame() {
+    val fraseActual = cargarFrases()
+    val countdownValue: MutableState<Int> = remember { mutableStateOf(20) }
+    val gameStarted: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val score: MutableState<Int> = remember { mutableStateOf(0) }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -43,8 +60,8 @@ fun FraseGame() {
                 if (!gameStarted.value) {
                     gameStarted.value = true
                     countdownValue.value = 20
-                    score.value = 0 // Reiniciar la puntuación al iniciar el juego
-                    startCountdown()
+                    score.value = 0
+                    startCountdown(countdownValue, gameStarted, fraseActual)
                 }
             }
         ) {
@@ -52,16 +69,15 @@ fun FraseGame() {
         }
 
         Text(text = "Countdown: ${countdownValue.value}")
-        val customH5Style = TextStyle(
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp // Tamaño de fuente equivalente a h5
-        )
 
         BasicTextField(
             value = fraseActual.value.texto,
             onValueChange = { /* No op, read-only field */ },
             modifier = Modifier.padding(8.dp),
-            textStyle = customH5Style
+            textStyle = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp // Tamaño de fuente equivalente a h5
+            )
         )
 
         Row(
@@ -69,14 +85,14 @@ fun FraseGame() {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Button(
-                onClick = { checkAnswer(true) },
+                onClick = { checkAnswer(true, score, fraseActual) },
                 enabled = gameStarted.value
             ) {
                 Text(text = "V")
             }
 
             Button(
-                onClick = { checkAnswer(false) },
+                onClick = { checkAnswer(false, score, fraseActual) },
                 enabled = gameStarted.value
             ) {
                 Text(text = "F")
@@ -87,22 +103,30 @@ fun FraseGame() {
     }
 }
 
-fun startCountdown() {
+fun startCountdown(
+    countdownValue: MutableState<Int>,
+    gameStarted: MutableState<Boolean>,
+    fraseActual: MutableState<Frase>
+) {
     CoroutineScope(Dispatchers.Default).launch {
         while (countdownValue.value > 0) {
             countdownValue.value--
-            fraseActual.value = frases.random()
+            fraseActual.value = cargarFrases().value
             delay(1000)
         }
         gameStarted.value = false
     }
 }
 
-fun checkAnswer(answer: Boolean) {
+fun checkAnswer(
+    answer: Boolean,
+    score: MutableState<Int>,
+    fraseActual: MutableState<Frase>
+) {
     if (answer == fraseActual.value.verdadero) {
         score.value++
     }
-    fraseActual.value = frases.random() // Mostrar nueva frase aleatoria
+    fraseActual.value = cargarFrases().value
 }
 
 @Preview
@@ -110,6 +134,7 @@ fun checkAnswer(answer: Boolean) {
 fun PreviewFraseGame() {
     FraseGame()
 }
+
 
 
 
