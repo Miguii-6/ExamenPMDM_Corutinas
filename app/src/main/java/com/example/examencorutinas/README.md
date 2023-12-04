@@ -86,11 +86,11 @@ classDiagram
 
 ```mermaid
 graph TD
-    A((Inicio)) --> B(Comenzar Juego)
+    A[Inicio] --> B[Comenzar Juego]
     B --> C{Respuesta Correcta?}
-    C -- Sí --> D(Sumar Puntuación)
-    D --> E(¿Fin del Juego?)
+    C -- Sí --> D[Sumar Puntuación]
+    D --> E[¿Fin del Juego?]
     E -- No --> B
     C -- No --> E
-    E --> F((Fin))
+    E --> F[Fin]
 ```
