@@ -3,9 +3,10 @@ package com.example.examencorutinas.ui.theme
 // Clase para almacenar una frase y su valor verdadero/falso
 data class Frase(var texto: String, var verdadero: Boolean)
 
+
 // Función para cargar una lista de frases
-fun cargarFrases(): MutableList<Frase> {
-    return mutableListOf(
+object Datos {
+    val frases = mutableListOf(
         Frase("el torneo de rugby cinco naciones, ahora es seis naciones", true),
         Frase("en el cielo hay cinco estrellas", false),
         Frase("el dia cinco de diciembre del 2023 es martes", true),
