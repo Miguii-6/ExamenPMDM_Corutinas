@@ -36,7 +36,7 @@ fun FraseGame(viewModel: MiViewModel = viewModel()) {
         // Botón de inicio
         Button(
             onClick = {
-                viewModel.iniciarJuego()
+                viewModel.iniciarJuego() // Iniciar el juego al presionar el botón
             },
             modifier = Modifier
                 .padding(vertical = 24.dp)
@@ -54,7 +54,7 @@ fun FraseGame(viewModel: MiViewModel = viewModel()) {
         )
 
         if (viewModel.gameStarted.value) {
-            // Campo de texto para mostrar la frase
+            // Campo de texto para mostrar la frase actual
             BasicTextField(
                 value = Datos.frases[viewModel.fraseActualIndex].texto,
                 onValueChange = {},
@@ -101,7 +101,7 @@ fun FraseGame(viewModel: MiViewModel = viewModel()) {
 
             // Mostrar puntuación
             Text(
-                text = "Score: ${viewModel.score.value}",
+                text = "Score: ${viewModel.score.value}",// Mostrar la puntuación actual
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
