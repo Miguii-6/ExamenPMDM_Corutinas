@@ -1,7 +1,6 @@
 package com.example.examencorutinas.ui.theme
 
-import android.graphics.Color
-import androidx.compose.foundation.background
+
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
